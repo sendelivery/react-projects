@@ -74,17 +74,26 @@ const Search = ({ search, onSearch }) =>  // We can destructure props directly i
   </div>
 
 const List = ({list}) =>
-  list.map(item => <Item key={item.objectID} item={item} />);
+  //list.map(item => (
+    // Rather than pass the object, we pass it's individual properties.
+    /* <Item 
+      key={item.objectID} 
+      title={item.title}
+      url={item.url}
+      author={item.author}
+      num_comments={item.num_comments}
+      points={item.points}
+    /> )); */
+    // Or we can use the JS ... spread and rest operator:
+  list.map(({
+    // Basically, give me the item.objectID, then (minus objectID) destructure the rest into item
+    objectID, 
+     ...item
+    }) => 
+    // Then spread what's in item as props for the Item component (the props are then destructured in Item)
+    <Item key={objectID} { ...item } />);
 
-const Item = ({ // An example of nested destructuring... this is really cluttered though so not always best to do it in the signature
-  item: {
-    title,
-    url,
-    author,
-    num_comments,
-    points,
-  },
-}) => (
+const Item = ({ title, url, author, num_comments, points }) => (
   <div>
     <span>
       <a href={url}>{title}</a>
