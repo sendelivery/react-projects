@@ -52,23 +52,35 @@ const App = () => {
 
   return (
     <>
-      <div className="instructions">
+      <div className="instructions mt-5">
         <Instructions />
       </div>
-      <div className="key-section">
-        {image ? <img src={image.url} alt="User uploaded" /> : <></>}
-        <Upload onUploadChange={handleChange} />
-      </div>
-      <div className="key-section">
-        <Compress onCompressClick={compressImage} />
-      </div>
-      <div className="key-section">
-        {compressedImage ? (
-          <img src={compressedImage.url} alt="User uploaded" />
-        ) : (
-          <></>
-        )}
-        <Download image={compressedImage} />
+      <div className="row m-5">
+        <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+          <div>
+            {image ? <img src={image.url} alt="User uploaded" /> : <></>}
+          </div>
+          <div className="bg-dark rounded m-3 p-3">
+            <Upload onUploadChange={handleChange} />
+          </div>
+        </div>
+
+        <div className="col-xl-4 col-lg-4 col-md-12 mb-5 mt-5 col-sm-12 d-flex justify-content-center align-items-baseline">
+          <Compress onCompressClick={compressImage} />
+        </div>
+
+        <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+          <div>
+            {compressedImage ? (
+              <img src={compressedImage.url} alt="User uploaded" />
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="d-flex justify-content-center">
+            <Download image={compressedImage} />
+          </div>
+        </div>
       </div>
     </>
   );
@@ -82,14 +94,14 @@ const Upload = ({ onUploadChange }) => (
 
 const Compress = ({ onCompressClick }) => (
   <>
-    <button onClick={onCompressClick}>Compress</button>
+    <button className="btn btn-dark" onClick={onCompressClick}>Compress</button>
   </>
 );
 
 const Download = ({ image }) => (
   <>
     {image ? (
-      <a href={image.url} download={image.name}>
+      <a className="btn btn-dark bg-dark rounded m-3 w-75" href={image.url} download={image.name}>
         Download
       </a>
     ) : (
