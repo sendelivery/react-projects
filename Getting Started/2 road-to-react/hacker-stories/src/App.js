@@ -56,13 +56,14 @@ const App = () => {
   return (
     <div>
       <h1>My Hacker Stories</h1>
-      {/* The specialised search component can be made more general and reusable by specifying attributes like so */}
       <InputWithLabel 
         id='search'
-        label='Search: '
         value={searchTerm}
+        isFocused={true}
         onInputChange={handleSearch} 
-      />
+      >
+        <strong><Text /></strong> 
+      </InputWithLabel>
       <hr />
       <List list={searchedStories} />
     </div>
@@ -70,17 +71,54 @@ const App = () => {
 };
 
 // If no type prop is passed, the default 'text' takes over. 
-const InputWithLabel = ({ id, label, type = 'text', value, onInputChange }) =>
+// React components behave similarly to html tags, everything passed between tags are accessed in the children prop as below:
+// using that we can also compose components inside components, by passing them as React children.
+const InputWithLabel = ({ id, type = 'text', value, isFocused, onInputChange, children }) => {
+  // A
+  const inputRef = React.useRef();
+
+  // C
+  React.useEffect(() => {
+    if (isFocused && inputRef.current) { 
+      // D
+      inputRef.current.focus();
+    }
+  }, [isFocused]);
+
+  return (
+    <>
+      <label htmlFor={id}>{children}</label>
+      {/* B */}
+      <input
+        ref={inputRef}
+        id={id}
+        type={type}
+        value={value}
+        onChange={onInputChange}
+      />
+      <p>
+        Searching for: <strong>{value}</strong>
+      </p>
+    </>
+  );
+}
+
+/* 
+  (A) First, create a ref with React’s useRef hook. This ref object is a persistent value which
+  stays intact over the lifetime of a React component. It comes with a property called current,
+  which, in contrast to the ref object, can be changed.
+  (B) Second, the ref is passed to the input field’s JSX-reserved ref attribute and the element
+  instance is assigned to the changeable current property.
+  (C) Third, opt into React’s lifecycle with React’s useEffect Hook, performing the focus on the
+  input field when the component renders (or its dependencies change).
+  (D) And fourth, since the ref is passed to the input field’s ref attribute, its current property
+  gives access to the element. Execute its focus programmatically as a side-effect, but only if
+  isFocused is set and the current property is existent.
+*/
+
+const Text = () => 
   <>
-    <label htmlFor={id}>{label}</label>
-    <input 
-      id={id} 
-      type={type} 
-      value={value}
-      onChange={onInputChange} />
-    <p>
-      Searching for: <strong>{value}</strong>
-    </p>
+    Search: 
   </>
 
 const List = ({ list }) => 
