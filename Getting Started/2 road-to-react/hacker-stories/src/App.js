@@ -19,12 +19,9 @@ const initialStories = [
   },
 ];
 
-const getAsyncStories = () => 
-  new Promise(resolve => 
-    setTimeout( () => 
-      resolve({ data: {stories: initialStories } }),
-      2000
-    )
+const getAsyncStories = () =>
+  new Promise((resolve) =>
+    setTimeout(() => resolve({ data: { stories: initialStories } }), 2000)
   );
 
 // Hook naming convention: puts the 'use' prefix in front of every hook
@@ -52,12 +49,19 @@ const useSemiPersistentState = (key, initialState) => {
 
 const App = () => {
   const [stories, setStories] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isError, setIsError] = React.useState(false);
 
   // useEffect, so the function only runs on the very first render.
   React.useEffect(() => {
-    getAsyncStories().then(result => {
-      setStories(result.data.stories);
-    });
+    setIsLoading(true);
+
+    getAsyncStories()
+      .then((result) => {
+        setStories(result.data.stories);
+        setIsLoading(false);
+      })
+      .catch(() => setIsError(true));
   }, []);
 
   const handleRemoveStory = (item) => {
@@ -92,7 +96,19 @@ const App = () => {
         </strong>
       </InputWithLabel>
       <hr />
-      <List list={searchedStories} onRemoveItem={handleRemoveStory} />
+      {isError && <p>Something went wrong...</p>}
+      {/* CONDITIONAL RENDERING ^
+          In JavaScript, a true && 'Hello World' always evaluates to ‘Hello World’. Afalse && 'Hello World'
+          always evaluates to false. In React, we can use this behaviour to our advantage. If the condition is
+          true, the expression after the logical && operator will be the output. If the condition is false, React
+          ignores it and skips the expression.
+      */}
+
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <List list={searchedStories} onRemoveItem={handleRemoveStory} />
+      )}
     </div>
   );
 };
@@ -158,19 +174,19 @@ const List = ({ list, onRemoveItem }) =>
   ));
 
 const Item = ({ item, onRemoveItem }) => (
-    <div>
-      <span>
-        <a href={item.url}>{item.title}</a>
-      </span>
-      <span>{item.author}</span>
-      <span>{item.num_comments}</span>
-      <span>{item.points}</span>
-      <span>
-        <button type="button" onClick={() => onRemoveItem(item)}>
-          Dismiss
-        </button>
-      </span>
-    </div>
-  );
+  <div>
+    <span>
+      <a href={item.url}>{item.title}</a>
+    </span>
+    <span>{item.author}</span>
+    <span>{item.num_comments}</span>
+    <span>{item.points}</span>
+    <span>
+      <button type="button" onClick={() => onRemoveItem(item)}>
+        Dismiss
+      </button>
+    </span>
+  </div>
+);
 
 export default App;
