@@ -19,6 +19,14 @@ const initialStories = [
   },
 ];
 
+const getAsyncStories = () => 
+  new Promise(resolve => 
+    setTimeout( () => 
+      resolve({ data: {stories: initialStories } }),
+      2000
+    )
+  );
+
 // Hook naming convention: puts the 'use' prefix in front of every hook
 // Another convention, a hook's internals should be about a value being set and synchronised with local storage,
 // not a specific domain like Search
@@ -43,7 +51,14 @@ const useSemiPersistentState = (key, initialState) => {
 };
 
 const App = () => {
-  const [stories, setStories] = React.useState(initialStories);
+  const [stories, setStories] = React.useState([]);
+
+  // useEffect, so the function only runs on the very first render.
+  React.useEffect(() => {
+    getAsyncStories().then(result => {
+      setStories(result.data.stories);
+    });
+  }, []);
 
   const handleRemoveStory = (item) => {
     const newStory = stories.filter(
