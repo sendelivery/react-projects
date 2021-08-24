@@ -19,6 +19,35 @@ const initialStories = [
   },
 ];
 
+/*  
+  A reducer is a function which takes the current state and an action as arguments, and returns a new state based on those arguments.
+  The reducer function is a pure function without any side-effects, which means that given the same input (e.g. state and action),
+  the expected output (e.g. newState) will always be the same. This makes reducer functions the perfect fit for reasoning about 
+  state changes and testing them in isolation.
+
+  The action argument is normally defined as an object with a type property. Based on the type of the action, the reducer can perform 
+  conditional state transitions
+
+  A reducer function always receives state and action. Based on these two arguments, a reducer always returns a new state: 
+*/
+const storiesReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_STORIES':
+      return action.payload;
+    case 'REMOVE_STORIES':
+      return state.filter(story => action.payload.objectID !== story.objectID);
+    default:
+      throw new Error();
+  }
+};
+/*
+  A reducer action is often associated with a type. If this type matches a condition in the reducer, do
+  something. If it isn’t covered by the reducer, throw an error to remind yourself the implementation
+  isn’t covered. The storiesReducer function covers one type, and then returns the payload of
+  the incoming action without using the current state to compute the new state. The new
+  state is simply the payload‘
+*/
+
 const getAsyncStories = () =>
   new Promise((resolve) =>
     setTimeout(() => resolve({ data: { stories: initialStories } }), 2000)
@@ -48,7 +77,7 @@ const useSemiPersistentState = (key, initialState) => {
 };
 
 const App = () => {
-  const [stories, setStories] = React.useState([]);
+  const [stories, dispatchStories] = React.useReducer(storiesReducer, []);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
 
@@ -58,18 +87,20 @@ const App = () => {
 
     getAsyncStories()
       .then((result) => {
-        setStories(result.data.stories);
+        dispatchStories({
+          type: "SET_STORIES",
+          payload: result.data.stories,
+        });
         setIsLoading(false);
       })
       .catch(() => setIsError(true));
   }, []);
 
   const handleRemoveStory = (item) => {
-    const newStory = stories.filter(
-      (story) => item.objectID !== story.objectID
-    );
-
-    setStories(newStory);
+    dispatchStories({
+      type: "REMOVE_STORIES",
+      payload: item,
+    });
   };
 
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
