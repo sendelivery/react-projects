@@ -19,37 +19,8 @@ const initialStories = [
   },
 ];
 
-/*  
-  A reducer is a function which takes the current state and an action as arguments, and returns a new state based on those arguments.
-  The reducer function is a pure function without any side-effects, which means that given the same input (e.g. state and action),
-  the expected output (e.g. newState) will always be the same. This makes reducer functions the perfect fit for reasoning about 
-  state changes and testing them in isolation.
-
-  The action argument is normally defined as an object with a type property. Based on the type of the action, the reducer can perform 
-  conditional state transitions
-
-  A reducer function always receives state and action. Based on these two arguments, a reducer always returns a new state: 
-*/
-const storiesReducer = (state, action) => {
-  switch (action.type) {
-    case 'SET_STORIES':
-      return action.payload;
-    case 'REMOVE_STORIES':
-      return state.filter(story => action.payload.objectID !== story.objectID);
-    default:
-      throw new Error();
-  }
-};
-/*
-  A reducer action is often associated with a type. If this type matches a condition in the reducer, do
-  something. If it isn’t covered by the reducer, throw an error to remind yourself the implementation
-  isn’t covered. The storiesReducer function covers one type, and then returns the payload of
-  the incoming action without using the current state to compute the new state. The new
-  state is simply the payload‘
-*/
-
 const getAsyncStories = () =>
-  new Promise((resolve) =>
+  new Promise((resolve, reject) =>
     setTimeout(() => resolve({ data: { stories: initialStories } }), 2000)
   );
 
@@ -76,40 +47,92 @@ const useSemiPersistentState = (key, initialState) => {
   return [value, setValue];
 };
 
+/*  
+  A reducer is a function which takes the current state and an action as arguments, and returns a new state based on those arguments.
+  The reducer function is a pure function without any side-effects, which means that given the same input (e.g. state and action),
+  the expected output (e.g. newState) will always be the same. This makes reducer functions the perfect fit for reasoning about 
+  state changes and testing them in isolation.
+
+  The action argument is normally defined as an object with a type property. Based on the type of the action, the reducer can perform 
+  conditional state transitions
+
+  A reducer function always receives state and action. Based on these two arguments, a reducer always returns a new state: 
+*/
+const storiesReducer = (state, action) => {
+  switch (action.type) {
+    case "STORIES_FETCH_INIT":
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    case "STORIES_FETCH_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: action.payload,
+      };
+    case "STORIES_FETCH_FAILURE":
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    case "REMOVE_STORY":
+      return {
+        ...state,
+        data: state.filter(
+          (story) => action.payload.objectID !== story.objectID
+        ),
+      };
+    default:
+      throw new Error();
+  }
+};
+/*
+  A reducer action is often associated with a type. If this type matches a condition in the reducer, do
+  something. If it isn’t covered by the reducer, throw an error to remind yourself the implementation
+  isn’t covered. The storiesReducer function covers one type, and then returns the payload of
+  the incoming action without using the current state to compute the new state. The new
+  state is simply the payload‘
+*/
+
 const App = () => {
-  const [stories, dispatchStories] = React.useReducer(storiesReducer, []);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [isError, setIsError] = React.useState(false);
+  const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
+
+  const [stories, dispatchStories] = React.useReducer(storiesReducer, {
+    data: [],
+    isLoading: false,
+    isError: false,
+  });
 
   // useEffect, so the function only runs on the very first render.
   React.useEffect(() => {
-    setIsLoading(true);
+    dispatchStories({ type: "STORIES_FETCH_INIT" });
 
     getAsyncStories()
       .then((result) => {
         dispatchStories({
-          type: "SET_STORIES",
+          type: "STORIES_FETCH_SUCCESS",
           payload: result.data.stories,
         });
-        setIsLoading(false);
       })
-      .catch(() => setIsError(true));
+      .catch(() => dispatchStories({ type: "STORIES_FETCH_FAILURE" }));
   }, []);
 
   const handleRemoveStory = (item) => {
     dispatchStories({
-      type: "REMOVE_STORIES",
+      type: "REMOVE_STORY",
       payload: item,
     });
   };
-
-  const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const searchedStories = stories.filter((story) =>
+  const searchedStories = stories.data.filter((story) =>
     story.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -127,7 +150,7 @@ const App = () => {
         </strong>
       </InputWithLabel>
       <hr />
-      {isError && <p>Something went wrong...</p>}
+      {stories.isError && <p>Something went wrong...</p>}
       {/* CONDITIONAL RENDERING ^
           In JavaScript, a true && 'Hello World' always evaluates to ‘Hello World’. Afalse && 'Hello World'
           always evaluates to false. In React, we can use this behaviour to our advantage. If the condition is
@@ -135,7 +158,7 @@ const App = () => {
           ignores it and skips the expression.
       */}
 
-      {isLoading ? (
+      {stories.isLoading ? (
         <p>Loading...</p>
       ) : (
         <List list={searchedStories} onRemoveItem={handleRemoveStory} />
