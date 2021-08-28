@@ -60,7 +60,7 @@ const storiesReducer = (state, action) => {
     case "REMOVE_STORY":
       return {
         ...state,
-        data: state.filter(
+        data: state.data.filter(
           (story) => action.payload.objectID !== story.objectID
         ),
       };
@@ -69,8 +69,14 @@ const storiesReducer = (state, action) => {
   }
 };
 
+const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
+
 const App = () => {
-  const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
+  const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
+
+  const [url, setUrl] = React.useState(
+    `${API_ENDPOINT}${searchTerm}`
+  );
 
   const [stories, dispatchStories] = React.useReducer(storiesReducer, {
     data: [],
@@ -78,18 +84,38 @@ const App = () => {
     isError: false,
   });
 
-  React.useEffect(() => {
+  // A: all data fetching logic is in a standalone function.
+  // B: wrap it into a useCallback* hook.
+  // * useCallback creates a memoized function every time it's dependency array E, changes.
+  // As a result, the useEffect C, runs again because it depends on the new function D.
+  const handleFetchStories = React.useCallback(() => {
+    if (!searchTerm) return;
+
     dispatchStories({ type: "STORIES_FETCH_INIT" });
 
-    getAsyncStories()
+    fetch(url)
+      .then((response) => response.json())
       .then((result) => {
         dispatchStories({
           type: "STORIES_FETCH_SUCCESS",
-          payload: result.data.stories,
+          payload: result.hits,
         });
       })
       .catch(() => dispatchStories({ type: "STORIES_FETCH_FAILURE" }));
-  }, []);
+  }, [url]); // E
+
+  React.useEffect(() => {
+    handleFetchStories(); // C: invoke in the useEffect* hook
+  }, [handleFetchStories]); // D
+
+  /*
+    If we didn’t create a memoized function with React’s useCallback Hook, a new handleFetchStories
+    function would be created with each App component is rendered. The handleFetchStories function
+    would be created each time, and would be executed in the useEffect hook to fetch data. The fetched
+    data is then stored as state in the component. Because the state of the component changed, the
+    component re-renders and creates a new handleFetchStories function. The side-effect would be
+    triggered to fetch data, and we’d be stuck in an endless loop:
+  */
 
   const handleRemoveStory = (item) => {
     dispatchStories({
@@ -98,13 +124,13 @@ const App = () => {
     });
   };
 
-  const handleSearch = (event) => {
+  const handleSearchInput = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const searchedStories = stories.data.filter((story) =>
-    story.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleSearchSubmit = () => {
+    setUrl(`${API_ENDPOINT}${searchTerm}`)
+  }
 
   return (
     <div>
@@ -113,19 +139,27 @@ const App = () => {
         id="search"
         value={searchTerm}
         isFocused={true}
-        onInputChange={handleSearch}
+        onInputChange={handleSearchInput}
       >
         <strong>
           <Text />
         </strong>
       </InputWithLabel>
+
+      <button
+        type='button'
+        disabled={!searchTerm}
+        onClick={handleSearchSubmit}
+      >
+        Submit
+      </button>
       <hr />
       {stories.isError && <p>Something went wrong...</p>}
 
       {stories.isLoading ? (
         <p>Loading...</p>
       ) : (
-        <List list={searchedStories} onRemoveItem={handleRemoveStory} />
+        <List list={stories.data} onRemoveItem={handleRemoveStory} />
       )}
     </div>
   );
