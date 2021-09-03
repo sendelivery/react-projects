@@ -1,4 +1,6 @@
 import React from "react";
+// Substituting native fetch API with the axios library to ensure fetch works with older browsers.
+import axios from "axios";
 
 const initialStories = [
   {
@@ -74,9 +76,7 @@ const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
 
-  const [url, setUrl] = React.useState(
-    `${API_ENDPOINT}${searchTerm}`
-  );
+  const [url, setUrl] = React.useState(`${API_ENDPOINT}${searchTerm}`);
 
   const [stories, dispatchStories] = React.useReducer(storiesReducer, {
     data: [],
@@ -88,20 +88,28 @@ const App = () => {
   // B: wrap it into a useCallback* hook.
   // * useCallback creates a memoized function every time it's dependency array E, changes.
   // As a result, the useEffect C, runs again because it depends on the new function D.
-  const handleFetchStories = React.useCallback(() => {
-    if (!searchTerm) return;
+  const handleFetchStories = React.useCallback(async () => {
+    /*
+    To use async/await, we need to prefix our function with the async keyword.
+    Then, after using await, actions following it will not be executed until the promise resolves.
+    i.e. the code will wait.
+
+    The try and catch blocks are here to help with error handling. 
+    then/catch blocks and async/await with try/catch blocks are both valid for handling asynchronous data in JavaScript and React.
+  */
 
     dispatchStories({ type: "STORIES_FETCH_INIT" });
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((result) => {
-        dispatchStories({
-          type: "STORIES_FETCH_SUCCESS",
-          payload: result.hits,
-        });
-      })
-      .catch(() => dispatchStories({ type: "STORIES_FETCH_FAILURE" }));
+    try {
+      const result = await axios.get(url);
+
+      dispatchStories({
+        type: "STORIES_FETCH_SUCCESS",
+        payload: result.data.hits,
+      });
+    } catch {
+      dispatchStories({ type: "STORIES_FETCH_FAILURE" });
+    }
   }, [url]); // E
 
   React.useEffect(() => {
@@ -128,31 +136,22 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchSubmit = () => {
-    setUrl(`${API_ENDPOINT}${searchTerm}`)
-  }
+  const handleSearchSubmit = (event) => {
+    setUrl(`${API_ENDPOINT}${searchTerm}`);
+
+    event.preventDefault();
+  };
 
   return (
     <div>
       <h1>My Hacker Stories</h1>
-      <InputWithLabel
-        id="search"
-        value={searchTerm}
-        isFocused={true}
-        onInputChange={handleSearchInput}
-      >
-        <strong>
-          <Text />
-        </strong>
-      </InputWithLabel>
 
-      <button
-        type='button'
-        disabled={!searchTerm}
-        onClick={handleSearchSubmit}
-      >
-        Submit
-      </button>
+      <SearchForm
+        searchTerm={searchTerm}
+        onSearchInput={handleSearchInput}
+        onSearchSubmit={handleSearchSubmit}
+      />
+
       <hr />
       {stories.isError && <p>Something went wrong...</p>}
 
@@ -164,6 +163,23 @@ const App = () => {
     </div>
   );
 };
+
+const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit }) => (
+  <form onSubmit={onSearchSubmit}>
+    <InputWithLabel
+      id="search"
+      value={searchTerm}
+      isFocused
+      onInputChange={onSearchInput}
+    >
+      <strong>Search: </strong>
+    </InputWithLabel>
+
+    <button type="submit" disabled={!searchTerm}>
+      Submit
+    </button>
+  </form>
+);
 
 const InputWithLabel = ({
   id,
@@ -197,8 +213,6 @@ const InputWithLabel = ({
     </>
   );
 };
-
-const Text = () => <>Search:</>;
 
 const List = ({ list, onRemoveItem }) =>
   list.map((item) => (
