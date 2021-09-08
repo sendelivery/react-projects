@@ -1,11 +1,11 @@
-import React from "react";
-import GenericButton from "../components/Button";
+import React, { useContext } from "react";
+import { LargeButton, SmallButton } from "../components/Button";
 import title from "../assets/Minecraft-java-logo.png";
-
-const subButtons = ["Lang", "Options...", "Quit Game", "Skin"];
+import { SceneContext } from "../contexts/SceneContext";
 
 const Start = () => {
   const mainButtons = ["Singleplayer", "Multiplayer", "Minecraft Realms"];
+  const subButtons = ["Lang", "Options...", "Quit Game", "Skin"];
 
   return (
     <>
@@ -20,20 +20,26 @@ const Start = () => {
   );
 };
 
-const MainButtons = ({ buttons }) =>
-  buttons.map((item) => (
+const MainButtons = (props) => {
+  const context = useContext(SceneContext);
+
+  return props.buttons.map((item) => (
     <div key={`${item}BTN`}>
-      <GenericButton onClick={switchScene} text={item}  />
+      <LargeButton onClick={() => context.setScene(`${item}`)} text={item} />
     </div>
   ));
+};
 
-const SubButtons = ({ buttons }) =>
-  buttons.map((item) => (
-    <GenericButton onClick={switchScene} text={item} key={`${item}BTN`} />
+const SubButtons = (props) => {
+  const context = useContext(SceneContext);
+
+  return props.buttons.map((item) => (
+    <LargeButton
+      onClick={() => context.setScene(`${item}`)}
+      text={item}
+      key={`${item}BTN`}
+    />
   ));
-
-const switchScene = () => {
-  console.log("switching scene");
 };
 
 export default Start;

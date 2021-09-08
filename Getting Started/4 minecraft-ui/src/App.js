@@ -1,20 +1,31 @@
-import React from "react"
-import './App.css';
+import React, { useContext } from "react";
+import "./App.css";
+import { SceneContext, SceneContextProvider } from "./contexts/SceneContext";
 import Start from "./scenes/Start";
+import Singleplayer from "./scenes/Singleplayer"
 
 function App() {
-  const [scene, setScene] = React.useState("Start")
-
-  const goToScene = (scene) => {
-    setScene(scene);
-  };
-
   return (
     <div className="App">
-      { scene === "Start" && <Start onClick={ goToScene }/> }
+      <SceneContextProvider>
+        <CurrentScene />
+      </SceneContextProvider>
     </div>
   );
 }
+
+const CurrentScene = () => {
+  const context = useContext(SceneContext);
+
+  console.log("current scene is ",context.currScene)
+
+  return (
+    <div>
+      {context.currScene === "Start" && <Start />}
+      {context.currScene === "Singleplayer" && <Singleplayer />}
+    </div>
+  );
+};
 
 export default App;
 
