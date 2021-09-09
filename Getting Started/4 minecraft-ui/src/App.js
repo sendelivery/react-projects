@@ -3,6 +3,8 @@ import "./App.css";
 import { SceneContext, SceneContextProvider } from "./contexts/SceneContext";
 import Start from "./scenes/Start";
 import Singleplayer from "./scenes/Singleplayer"
+import Create from "./scenes/Create";
+import NotImplemented from "./scenes/NotImplemented";
 
 function App() {
   return (
@@ -12,17 +14,18 @@ function App() {
       </SceneContextProvider>
     </div>
   );
-}
+};
 
 const CurrentScene = () => {
-  const context = useContext(SceneContext);
-
-  console.log("current scene is ",context.currScene)
+  const c = useContext(SceneContext);
+  console.log(c);
 
   return (
     <div>
-      {context.currScene === "Start" && <Start />}
-      {context.currScene === "Singleplayer" && <Singleplayer />}
+      {c.currScene === c.sceneList.MAIN && <Start />}
+      {c.currScene === c.sceneList.SINGLEPLAYER && <Singleplayer />}
+      {c.currScene === c.sceneList.CREATE && <Create />}
+      {c.currScene === c.sceneList.NOT_IMPLEMENTED && <NotImplemented />}
     </div>
   );
 };

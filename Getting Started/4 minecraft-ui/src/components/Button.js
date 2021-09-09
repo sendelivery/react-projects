@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
+import { SceneContext } from "../contexts/SceneContext";
 
 const LargeButton = (props) => (
-  <button className="large-button" onClick={props.onClick}>
+  <button className="button large-button" onClick={props.onClick}>
     {props.text}
   </button>
 );
 
 const MediumButton = (props) => (
-  <button className="medium-button" onClick={props.onClick}>
+  <button className="button medium-button" onClick={props.onClick}>
     {props.text}
   </button>
 );
 
 const SmallButton = (props) => (
-  <button className="small-button" onClick={props.onClick}>
+  <button className="button small-button" onClick={props.onClick}>
     {props.text}
   </button>
 );
 
-export { LargeButton, MediumButton, SmallButton };
+const BackToMain = () => {
+  const c = useContext(SceneContext);
+
+  return (
+    <button className="button medium-button" onClick={() => c.setScene(c.sceneList.MAIN)}>
+      Back to Start
+    </button>
+  );
+};
+
+export { LargeButton, MediumButton, SmallButton, BackToMain };

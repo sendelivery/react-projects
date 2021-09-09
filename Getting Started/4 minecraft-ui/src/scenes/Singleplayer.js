@@ -3,7 +3,23 @@ import { LargeButton, MediumButton } from "../components/Button";
 import { SceneContext } from "../contexts/SceneContext";
 
 const SinglePlayer = () => {
-  const context = useContext(SceneContext)
+  const {
+    currScene,
+    setScene,
+    sceneList: { ...sceneList },
+  } = useContext(SceneContext);
+
+  const largeButtons = [
+    { text: "Play Selected World", scene: sceneList.NOT_IMPLEMENTED },
+    { text: "Create New World", scene: sceneList.CREATE },
+  ];
+  const mediumButtons = [
+    { text: "Edit", scene: sceneList.NOT_IMPLEMENTED },
+    { text: "Delete", scene: sceneList.NOT_IMPLEMENTED },
+    { text: "Re-Create", scene: sceneList.NOT_IMPLEMENTED },
+    { text: "Cancel", scene: sceneList.MAIN },
+  ];
+
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -13,10 +29,6 @@ const SinglePlayer = () => {
   const handleSearchInput = (event) => {
     setSearchTerm(event.target.value);
   };
-
-  const onClick = () => {
-      console.log("click");
-  }
 
   return (
     <>
@@ -30,21 +42,29 @@ const SinglePlayer = () => {
         />
       </div>
       <div className="world-select">
-          <ul>
-              <li>World 1</li>
-              <li>World 2</li>
-          </ul>
+        <ul>
+          <li>World 1</li>
+          <li>World 2</li>
+        </ul>
       </div>
       <div className="footer">
         <div>
-          <LargeButton text="Play Selected World" onClick={onClick} />
-          <LargeButton text="Create New World" onClick={onClick} />
+          {largeButtons.map((item) => (
+            <LargeButton
+              text={item.text}
+              onClick={() => setScene(item.scene)}
+              key={item.text}
+            />
+          ))}
         </div>
         <div>
-          <MediumButton text="Edit" onClick={onClick} />
-          <MediumButton text="Delete" onClick={onClick} />
-          <MediumButton text="Re-Create" onClick={onClick} />
-          <MediumButton text="Cancel" onClick={() => context.setScene("Start")} />
+          {mediumButtons.map((item) => (
+            <MediumButton
+              text={item.text}
+              onClick={() => setScene(item.scene)}
+              key={item.text}
+            />
+          ))}
         </div>
       </div>
     </>
