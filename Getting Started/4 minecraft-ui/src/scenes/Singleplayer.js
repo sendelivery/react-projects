@@ -3,11 +3,8 @@ import { LargeButton, MediumButton } from "../components/Button";
 import { SceneContext } from "../contexts/SceneContext";
 
 const SinglePlayer = () => {
-  const {
-    currScene,
-    setScene,
-    sceneList: { ...sceneList },
-  } = useContext(SceneContext);
+  const c = useContext(SceneContext);
+  const sceneList = c.sceneList; 
 
   const largeButtons = [
     { text: "Play Selected World", scene: sceneList.NOT_IMPLEMENTED },
@@ -52,7 +49,7 @@ const SinglePlayer = () => {
           {largeButtons.map((item) => (
             <LargeButton
               text={item.text}
-              onClick={() => setScene(item.scene)}
+              onClick={() => c.setScene(item.scene)}
               key={item.text}
             />
           ))}
@@ -61,7 +58,7 @@ const SinglePlayer = () => {
           {mediumButtons.map((item) => (
             <MediumButton
               text={item.text}
-              onClick={() => setScene(item.scene)}
+              onClick={() => c.setScene(item.scene)}
               key={item.text}
             />
           ))}

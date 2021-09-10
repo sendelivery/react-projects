@@ -6,12 +6,17 @@ import { SceneContext } from "../contexts/SceneContext";
 const Start = () => {
   // Destructuring from a function that gives other functions and arrays makes the whole syntax a bit weird.
   // Below works, but I can't figure out how to ignore currScene and setScene.
-  // Alternatively I can just use: const c = useContext(SceneContext); and access everything through c.
-  const {
-    currScene,
-    setScene,
-    sceneList: { ...sceneList },
-  } = useContext(SceneContext);
+
+  // const {
+  //   currScene,
+  //   setScene,
+  //   sceneList: { ...sceneList },
+  // } = useContext(SceneContext);
+
+  // So instead I just use: const c = useContext(SceneContext); and access what I want through c, this also reduces the number of errors in the console.
+
+  const c = useContext(SceneContext);
+  const sceneList = c.sceneList; // I use sceneList a lot, it's easier to not have to access it through context
 
   const mainButtons = [
     { text: "Singleplayer", scene: sceneList.SINGLEPLAYER },
@@ -27,7 +32,7 @@ const Start = () => {
 
   return (
     <>
-      {/*<img src={title} alt="logo" />*/}
+      {<img src={title} alt="logo" />}
       <div>
         <MainButtons buttons={mainButtons} />
       </div>
@@ -39,29 +44,21 @@ const Start = () => {
 };
 
 const MainButtons = ({ buttons }) => {
-  const {
-    currScene,
-    setScene,
-    sceneList: { ...sceneList },
-  } = useContext(SceneContext);
+  const c = useContext(SceneContext);
 
   return buttons.map((item) => (
     <div key={`${item.text}`}>
-      <LargeButton onClick={() => setScene(item.scene)} text={item.text} />
+      <LargeButton onClick={() => c.setScene(item.scene)} text={item.text} />
     </div>
   ));
 };
 
 const SubButtons = ({ buttons }) => {
-  const {
-    currScene,
-    setScene,
-    sceneList: { ...sceneList },
-  } = useContext(SceneContext);
+  const c = useContext(SceneContext);
 
   return buttons.map((item) => (
-    <LargeButton
-      onClick={() => setScene(item.scene)}
+    <SmallButton
+      onClick={() => c.setScene(item.scene)}
       text={item.text}
       key={`${item.text}`}
     />
