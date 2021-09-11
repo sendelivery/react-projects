@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { LargeButton, MediumButton } from "../components/Button";
 import { SceneContext } from "../contexts/SceneContext";
+import { WorldContext } from "../contexts/WorldContext";
 
 const SinglePlayer = () => {
   const c = useContext(SceneContext);
-  const sceneList = c.sceneList; 
+  const sceneList = c.sceneList;
 
   const largeButtons = [
     { text: "Play Selected World", scene: sceneList.NOT_IMPLEMENTED },
@@ -16,6 +17,8 @@ const SinglePlayer = () => {
     { text: "Re-Create", scene: sceneList.NOT_IMPLEMENTED },
     { text: "Cancel", scene: sceneList.MAIN },
   ];
+
+  const worldContext = useContext(WorldContext);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -37,12 +40,18 @@ const SinglePlayer = () => {
           value={searchTerm}
           onInputChange={handleSearchInput}
         />
+        <hr />
       </div>
       <div className="world-select">
-        <ul>
-          <li>World 1</li>
-          <li>World 2</li>
-        </ul>
+        {worldContext.worldList.map((world) => (
+          <div key={`${world.name}`}>
+            <button>
+              {world.name},{world.date},{world.gamemode}, Version:{" "}
+              {world.version}
+            </button>
+          </div>
+        ))}
+        <hr />
       </div>
       <div className="footer">
         <div>

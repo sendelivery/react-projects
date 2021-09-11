@@ -2,19 +2,22 @@ import React, { useContext } from "react";
 import "./App.css";
 import { SceneContext, SceneContextProvider } from "./contexts/SceneContext";
 import Start from "./scenes/Start";
-import Singleplayer from "./scenes/Singleplayer"
+import Singleplayer from "./scenes/Singleplayer";
 import Create from "./scenes/Create";
 import NotImplemented from "./scenes/NotImplemented";
+import { WorldContextProvider } from "./contexts/WorldContext";
 
 function App() {
   return (
     <div className="App">
       <SceneContextProvider>
-        <CurrentScene />
+        <WorldContextProvider>
+          <CurrentScene />
+        </WorldContextProvider>
       </SceneContextProvider>
     </div>
   );
-};
+}
 
 const CurrentScene = () => {
   const c = useContext(SceneContext);
