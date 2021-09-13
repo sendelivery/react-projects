@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { LargeButton, MediumButton } from "../components/Button";
 import { SceneContext } from "../contexts/SceneContext";
-import { WorldContext } from "../contexts/WorldContext";
+import { WorldContext } from "../contexts/WorldListContext";
 
 const SinglePlayer = () => {
   const c = useContext(SceneContext);
@@ -34,19 +34,22 @@ const SinglePlayer = () => {
     <>
       <div className="header">
         <h1>Select World</h1>
-        <SearchInput
-          id="world-search"
-          type="text"
-          value={searchTerm}
-          onInputChange={handleSearchInput}
-        />
+        <div className="input-container">
+          <SearchInput
+            id="world-search"
+            type="text"
+            value={searchTerm}
+            onInputChange={handleSearchInput}
+          />
+        </div>
+
         <hr />
       </div>
       <div className="world-select">
         {worldContext.worldList.map((world) => (
           <div key={`${world.name}`}>
             <button>
-              {world.name},{world.date},{world.gamemode}, Version:{" "}
+              {world.name},{world.date},{world.gamemode}, Version:{"NOT IMPLEMENTED"}
               {world.version}
             </button>
           </div>

@@ -1,11 +1,36 @@
 class World {
   constructor(name, date, gamemode, version) {
+    // image
     this.name = name;
     this.date = date;
-    this.gamemode = gamemode;
+    this.gameMode = gamemode;
     this.version = version;
   }
 }
+
+World.GameMode = {
+  SURVIVAL: "Survival",
+  CREATIVE: "Creative",
+  HARDCORE: "Hardcore",
+};
+
+World.Difficulty = [
+  "Peaceful", "Easy", "Normal", "Hard"
+];
+
+World.CycleGameMode = (gameMode) => {
+  if (gameMode === World.GameMode.SURVIVAL) {
+    return World.GameMode.CREATIVE;
+  } else if (gameMode === World.GameMode.CREATIVE) {
+    return World.GameMode.HARDCORE;
+  } else {
+    return World.GameMode.SURVIVAL;
+  }
+};
+
+World.CycleDifficulty = (index) => {
+  return World.Difficulty[++index % World.Difficulty.length];
+};
 
 function CreateInitialWorlds() {
   const worldArray = [

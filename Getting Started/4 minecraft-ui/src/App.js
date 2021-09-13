@@ -5,7 +5,7 @@ import Start from "./scenes/Start";
 import Singleplayer from "./scenes/Singleplayer";
 import Create from "./scenes/Create";
 import NotImplemented from "./scenes/NotImplemented";
-import { WorldContextProvider } from "./contexts/WorldContext";
+import { WorldContextProvider } from "./contexts/WorldListContext";
 
 function App() {
   return (
@@ -21,7 +21,6 @@ function App() {
 
 const CurrentScene = () => {
   const c = useContext(SceneContext);
-  console.log(c);
 
   return (
     <div>
