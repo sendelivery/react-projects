@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { World } from "../classes/World";
 import { LargeButton, MediumButton } from "../components/Button";
 import { SceneContext } from "../contexts/SceneContext";
 import { WorldContext } from "../contexts/WorldListContext";
@@ -48,10 +49,22 @@ const SinglePlayer = () => {
       <div className="world-select">
         {worldContext.worldList.map((world) => (
           <div key={`${world.name}`}>
-            <button>
-              {world.name},{world.date},{world.gamemode}, Version:{"NOT IMPLEMENTED"}
-              {world.version}
-            </button>
+            <div className="worldList-item">
+              <img src="" />
+              <h3>{world.name}</h3>
+              <p>
+                {world.name} ({world.date})
+              </p>
+              {world.gameMode === World.GameMode.HARDCORE ? (
+                <p style={{ color: "red" }}>{world.gameMode} Mode!</p>
+              ) : (
+                <p>{world.gameMode} Mode</p>
+              )}
+              <p>, Version: {world.version}</p>
+              <button>
+                play
+              </button>
+            </div>
           </div>
         ))}
         <hr />

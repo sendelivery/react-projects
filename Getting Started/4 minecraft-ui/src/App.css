@@ -2,7 +2,15 @@
   text-align: center;
 }
 
-.container {
+.header-container {
+  width: 100%;
+}
+
+.body-container {
+  width: 100%;
+}
+
+.footer-container {
   width: 100%;
 }
 

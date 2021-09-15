@@ -1,57 +1,39 @@
-import React, { createContext } from "react";
+import React, { useState, createContext } from "react";
 import { CreateInitialWorlds } from "../classes/World";
 
 export const WorldContext = createContext();
 
-const worldsReducer = (state, action) => {
-  switch (action.type) {
-    case "RETRIEVE":
-      return {};
-    case "PLAY":
-      return {};
-    case "EDIT":
-      return {};
-    case "DELETE":
-      return {};
-    case "RECREATE":
-      return {};
-    default:
-      throw new Error();
-  }
-};
-
-const useSemiPersistentState = (key, initialState) => {
-  // DOESN'T WORK ON THE FIRST TRY AND I DON'T KNOW WHY!
-  const GetLocalOrInitial = () => {
-    // check if worlds already exist in local storage
-    if (localStorage.getItem(key) === null) {
-      // set them with initial state if not,
-      localStorage.setItem(key, initialState);
-      // return them to the reducer
-      return localStorage.getItem(key);
-    } else {
-      return initialState;
-    }
-  };
-
-  initialState = GetLocalOrInitial();
-
-  const [value, dispatchValue] = React.useReducer(worldsReducer, initialState);
-
-  React.useEffect(() => {
-    localStorage.setItem(key, value);
-  }, [value, key]);
-  return [value, dispatchValue];
-};
-
 export const WorldContextProvider = ({ children }) => {
-  const [worldList, dispatchWorldList] = useSemiPersistentState(
-    "worlds",
-    CreateInitialWorlds()
-  );
+  const key = "worlds";
+  let initialState = JSON.parse(localStorage.getItem(key));
+
+  if (!initialState) {
+    initialState = CreateInitialWorlds();
+    localStorage.setItem(key, JSON.stringify(initialState));
+  }
+
+  const [worldList, setWorldList] = useState(initialState);
+
+  const addWorld = (item) => {
+    let tempWorldList = worldList;
+    tempWorldList.push(item);
+
+    localStorage.setItem(key, JSON.stringify(tempWorldList));
+    setWorldList(tempWorldList);
+  }
+
+  const removeWorld = (item) => {
+    let tempWorldList = worldList;
+    tempWorldList.filter((world) => item.objectID !== world.objectID);
+
+    localStorage.setItem(key, JSON.stringify(tempWorldList));
+    setWorldList(tempWorldList);
+  }
+
   console.log("Retrieved world list: ", worldList);
+
   return (
-    <WorldContext.Provider value={{ worldList, dispatchWorldList }}>
+    <WorldContext.Provider value={{ worldList, addWorld, removeWorld }}>
       {children}
     </WorldContext.Provider>
   );

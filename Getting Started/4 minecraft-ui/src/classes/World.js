@@ -1,5 +1,7 @@
 class World {
   constructor(name, date, gamemode, version) {
+    this.objectID =
+      name.replace(/\s/g, "_") + "_" + Math.floor(Math.random() * Date.now());
     // image
     this.name = name;
     this.date = date;
@@ -14,9 +16,7 @@ World.GameMode = {
   HARDCORE: "Hardcore",
 };
 
-World.Difficulty = [
-  "Peaceful", "Easy", "Normal", "Hard"
-];
+World.Difficulty = ["Peaceful", "Easy", "Normal", "Hard"];
 
 World.CycleGameMode = (gameMode) => {
   if (gameMode === World.GameMode.SURVIVAL) {
@@ -34,8 +34,8 @@ World.CycleDifficulty = (index) => {
 
 function CreateInitialWorlds() {
   const worldArray = [
-    new World("World1", "12 / 12 / 12", "Creative", "1.16.3"),
-    new World("World2", "12 / 12 / 12", "Creative", "1.16.3"),
+    new World("MineCORE", "(29/09/2020, 17:28)", "Hardcore", "1.16.3"),
+    new World("Eorzea", "(25/09/2020, 15:10)", "Survival", "1.16.3"),
   ];
 
   return worldArray;

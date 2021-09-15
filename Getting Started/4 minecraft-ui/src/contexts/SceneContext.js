@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { useState, createContext } from "react";
 
 export const SceneContext = createContext();
 
@@ -9,7 +9,7 @@ export const SceneContextProvider = ({ children }) => {
     SINGLEPLAYER: "single",
     CREATE: "create",
   };
-  const [currScene, setScene] = React.useState(sceneList.MAIN);
+  const [currScene, setScene] = useState(sceneList.MAIN);
 
   return (
     <SceneContext.Provider value={{ currScene, setScene, sceneList }}>
