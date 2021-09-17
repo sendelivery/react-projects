@@ -4,12 +4,18 @@ import { LargeButton, MediumButton } from "../components/Button";
 import { SceneContext } from "../contexts/SceneContext";
 import { WorldContext } from "../contexts/WorldListContext";
 
-const SinglePlayer = () => {
+const Singleplayer = () => {
   const c = useContext(SceneContext);
   const sceneList = c.sceneList;
 
+  const worldContext = useContext(WorldContext);
+  const [selectedWorld, setSelectedWorld] = useState({});
+  console.log("selectedWorld: ", selectedWorld);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
   const largeButtons = [
-    { text: "Play Selected World", scene: sceneList.NOT_IMPLEMENTED },
+    { text: "Play Selected World", scene: sceneList.PLAY },
     { text: "Create New World", scene: sceneList.CREATE },
   ];
   const mediumButtons = [
@@ -19,9 +25,7 @@ const SinglePlayer = () => {
     { text: "Cancel", scene: sceneList.MAIN },
   ];
 
-  const worldContext = useContext(WorldContext);
-
-  const [searchTerm, setSearchTerm] = useState("");
+  
 
   useEffect(() => {
     console.log("sorting the world list...");
@@ -48,23 +52,23 @@ const SinglePlayer = () => {
       </div>
       <div className="world-select">
         {worldContext.worldList.map((world) => (
-          <div key={`${world.name}`}>
-            <div className="worldList-item">
-              <img src="" />
-              <h3>{world.name}</h3>
-              <p>
-                {world.name} ({world.date})
-              </p>
-              {world.gameMode === World.GameMode.HARDCORE ? (
-                <p style={{ color: "red" }}>{world.gameMode} Mode!</p>
-              ) : (
-                <p>{world.gameMode} Mode</p>
-              )}
-              <p>, Version: {world.version}</p>
-              <button>
-                play
-              </button>
-            </div>
+          <div
+            style={selectedWorld === world ? { border: "2px solid black" } : {}}
+            className="worldList-item"
+            onClick={() => setSelectedWorld(world)}
+            key={`${world.name}`}
+          >
+            <img src="" alt="" /> {/* IMAGE FOR THE WORLD */}
+            <h3>{world.name}</h3>
+            <p>
+              {world.name} ({world.date})
+            </p>
+            {world.gameMode === World.GameMode.HARDCORE ? (
+              <p style={{ color: "red" }}>{world.gameMode} Mode!</p>
+            ) : (
+              <p>{world.gameMode} Mode</p>
+            )}
+            <p>, Version: {world.version}</p>
           </div>
         ))}
         <hr />
@@ -74,7 +78,7 @@ const SinglePlayer = () => {
           {largeButtons.map((item) => (
             <LargeButton
               text={item.text}
-              onClick={() => c.setScene(item.scene)}
+              onClick={() => c.handleSceneSwitch(item.scene, selectedWorld)}
               key={item.text}
             />
           ))}
@@ -83,7 +87,7 @@ const SinglePlayer = () => {
           {mediumButtons.map((item) => (
             <MediumButton
               text={item.text}
-              onClick={() => c.setScene(item.scene)}
+              onClick={() => c.handleSceneSwitch(item.scene, selectedWorld)}
               key={item.text}
             />
           ))}
@@ -109,4 +113,4 @@ const SearchInput = ({ id, type, value, onInputChange }) => {
   );
 };
 
-export default SinglePlayer;
+export default Singleplayer;

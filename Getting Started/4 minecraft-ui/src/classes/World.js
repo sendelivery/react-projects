@@ -1,12 +1,14 @@
 class World {
-  constructor(name, date, gamemode, version) {
+  constructor(name, date, gamemode, difficulty, version, selected=false) {
     this.objectID =
       name.replace(/\s/g, "_") + "_" + Math.floor(Math.random() * Date.now());
     // image
     this.name = name;
     this.date = date;
     this.gameMode = gamemode;
+    this.difficulty = difficulty;
     this.version = version;
+    this.selected = selected;
   }
 }
 
@@ -34,8 +36,8 @@ World.CycleDifficulty = (index) => {
 
 function CreateInitialWorlds() {
   const worldArray = [
-    new World("MineCORE", "(29/09/2020, 17:28)", "Hardcore", "1.16.3"),
-    new World("Eorzea", "(25/09/2020, 15:10)", "Survival", "1.16.3"),
+    new World("MineCORE", "(29/09/2020, 17:28)", "Hardcore", World.Difficulty[3], "1.16.3"),
+    new World("Eorzea", "(25/09/2020, 15:10)", "Survival", World.Difficulty[2], "1.16.3"),
   ];
 
   return worldArray;

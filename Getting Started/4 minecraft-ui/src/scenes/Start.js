@@ -48,7 +48,7 @@ const MainButtons = ({ buttons }) => {
 
   return buttons.map((item) => (
     <div key={`${item.text}`}>
-      <LargeButton onClick={() => c.setScene(item.scene)} text={item.text} />
+      <LargeButton onClick={() => c.handleSceneSwitch(item.scene)} text={item.text} />
     </div>
   ));
 };

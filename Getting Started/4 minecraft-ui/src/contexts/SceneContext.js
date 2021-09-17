@@ -8,11 +8,24 @@ export const SceneContextProvider = ({ children }) => {
     MAIN: "main",
     SINGLEPLAYER: "single",
     CREATE: "create",
+    PLAY: "play",
   };
+
   const [currScene, setScene] = useState(sceneList.MAIN);
 
+  const handleSceneSwitch = (scene, world) => {
+    if (scene === sceneList.PLAY) {
+      setScene({
+        scene: scene,
+        selectedWorld: world,
+      });
+    } else {
+      setScene(scene);
+    }
+  };
+
   return (
-    <SceneContext.Provider value={{ currScene, setScene, sceneList }}>
+    <SceneContext.Provider value={{ currScene, handleSceneSwitch, sceneList }}>
       {children}
     </SceneContext.Provider>
   );

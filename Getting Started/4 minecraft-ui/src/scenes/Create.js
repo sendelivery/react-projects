@@ -8,6 +8,7 @@ import { WorldContext } from "../contexts/WorldListContext";
 const Create = () => {
   const scene_Context = useContext(SceneContext);
   const world_Context = useContext(WorldContext);
+  
   const [name, setName] = useState("");
   const [gMode, setGMode] = useState(World.GameMode.SURVIVAL);
 
@@ -41,7 +42,7 @@ const Create = () => {
     const date = new Date();
     const time = date.toLocaleDateString("en-GB", { hour: "2-digit", minute: "2-digit" });
 
-    const newWorld = new World(name, time, gMode, "1.16.2");
+    const newWorld = new World(name, time, gMode, difficulty, "1.16.2");
 
     world_Context.addWorld(newWorld);
   }
@@ -103,7 +104,7 @@ const Create = () => {
           />
           <LargeButton
             text="Data Packs"
-            onClick={() => scene_Context.setScene(scene_Context.sceneList.NOT_IMPLEMENTED)}
+            onClick={() => scene_Context.handleSceneSwitch(scene_Context.sceneList.NOT_IMPLEMENTED)}
             key="dataPacks"
           />
           <p className="flavour-text">Commands like /gamemode, /experience</p>
@@ -111,12 +112,12 @@ const Create = () => {
         <div className="button-row">
           <LargeButton
             text="Game Rules"
-            onClick={() => scene_Context.setScene(scene_Context.sceneList.NOT_IMPLEMENTED)}
+            onClick={() => scene_Context.handleSceneSwitch(scene_Context.sceneList.NOT_IMPLEMENTED)}
             key="gameRules"
           />
           <LargeButton
             text="More World Options..."
-            onClick={() => scene_Context.setScene(scene_Context.sceneList.NOT_IMPLEMENTED)}
+            onClick={() => scene_Context.handleSceneSwitch(scene_Context.sceneList.NOT_IMPLEMENTED)}
             key="worldOptions"
           />
         </div>
@@ -128,7 +129,7 @@ const Create = () => {
           />
           <LargeButton
             text="Cancel"
-            onClick={() => scene_Context.setScene(scene_Context.sceneList.SINGLEPLAYER)}
+            onClick={() => scene_Context.handleSceneSwitch(scene_Context.sceneList.SINGLEPLAYER)}
             key="worldOptions"
           />
         </div>
