@@ -13,7 +13,7 @@ const Start = () => {
   //   sceneList: { ...sceneList },
   // } = useContext(SceneContext);
 
-  // So instead I just use: const c = useContext(SceneContext); and access what I want through c, this also reduces the number of errors in the console.
+  // So instead I just use: const c = useContext(SceneContext); and access what I want through c, this also reduces the number of warnings in the console.
 
   const c = useContext(SceneContext);
   const sceneList = c.sceneList; // I use sceneList a lot, it's easier to not have to access it through context

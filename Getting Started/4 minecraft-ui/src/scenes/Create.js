@@ -6,8 +6,8 @@ import { SceneContext } from "../contexts/SceneContext";
 import { WorldContext } from "../contexts/WorldListContext";
 
 const Create = () => {
-  const scene_Context = useContext(SceneContext);
-  const world_Context = useContext(WorldContext);
+  const sceneContext = useContext(SceneContext);
+  const worldContext = useContext(WorldContext);
   
   const [name, setName] = useState("");
   const [gMode, setGMode] = useState(World.GameMode.SURVIVAL);
@@ -37,14 +37,14 @@ const Create = () => {
   };
 
   const createWorld = () => {
-    console.log("world list on create: ",world_Context.worldList);
+    console.log("world list on create: ",worldContext.worldList);
 
     const date = new Date();
     const time = date.toLocaleDateString("en-GB", { hour: "2-digit", minute: "2-digit" });
 
-    const newWorld = new World(name, time, gMode, difficulty, "1.16.2");
+    const newWorld = new World(name, time, gMode, difficulty, "1.17.1");
 
-    world_Context.addWorld(newWorld);
+    worldContext.addWorld(newWorld);
   }
 
   const diffFlavourText = () => {
@@ -104,7 +104,7 @@ const Create = () => {
           />
           <LargeButton
             text="Data Packs"
-            onClick={() => scene_Context.handleSceneSwitch(scene_Context.sceneList.NOT_IMPLEMENTED)}
+            onClick={() => sceneContext.handleSceneSwitch(sceneContext.sceneList.NOT_IMPLEMENTED)}
             key="dataPacks"
           />
           <p className="flavour-text">Commands like /gamemode, /experience</p>
@@ -112,12 +112,12 @@ const Create = () => {
         <div className="button-row">
           <LargeButton
             text="Game Rules"
-            onClick={() => scene_Context.handleSceneSwitch(scene_Context.sceneList.NOT_IMPLEMENTED)}
+            onClick={() => sceneContext.handleSceneSwitch(sceneContext.sceneList.NOT_IMPLEMENTED)}
             key="gameRules"
           />
           <LargeButton
             text="More World Options..."
-            onClick={() => scene_Context.handleSceneSwitch(scene_Context.sceneList.NOT_IMPLEMENTED)}
+            onClick={() => sceneContext.handleSceneSwitch(sceneContext.sceneList.NOT_IMPLEMENTED)}
             key="worldOptions"
           />
         </div>
@@ -129,7 +129,7 @@ const Create = () => {
           />
           <LargeButton
             text="Cancel"
-            onClick={() => scene_Context.handleSceneSwitch(scene_Context.sceneList.SINGLEPLAYER)}
+            onClick={() => sceneContext.handleSceneSwitch(sceneContext.sceneList.SINGLEPLAYER)}
             key="worldOptions"
           />
         </div>

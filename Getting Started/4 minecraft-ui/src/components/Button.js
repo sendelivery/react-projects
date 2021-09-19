@@ -29,7 +29,7 @@ const BackToMain = () => {
   return (
     <button
       className="button medium-button"
-      onClick={() => c.setScene(c.sceneList.MAIN)}
+      onClick={() => c.handleSceneSwitch(c.sceneList.MAIN)}
     >
       Back to Start
     </button>

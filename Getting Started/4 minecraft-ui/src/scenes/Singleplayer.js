@@ -9,31 +9,76 @@ const Singleplayer = () => {
   const sceneList = c.sceneList;
 
   const worldContext = useContext(WorldContext);
-  const [selectedWorld, setSelectedWorld] = useState({});
-  console.log("selectedWorld: ", selectedWorld);
+  const [selectedWorld, setSelectedWorld] = useState(null);
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const largeButtons = [
-    { text: "Play Selected World", scene: sceneList.PLAY },
-    { text: "Create New World", scene: sceneList.CREATE },
-  ];
-  const mediumButtons = [
-    { text: "Edit", scene: sceneList.NOT_IMPLEMENTED },
-    { text: "Delete", scene: sceneList.NOT_IMPLEMENTED },
-    { text: "Re-Create", scene: sceneList.NOT_IMPLEMENTED },
-    { text: "Cancel", scene: sceneList.MAIN },
-  ];
-
-  
-
   useEffect(() => {
-    console.log("sorting the world list...");
+    worldContext.searchWorldList(searchTerm);
   }, [searchTerm]);
 
   const handleSearchInput = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  const playSelected = (scene) => {
+    if (selectedWorld) {
+      worldContext.sortWorldList(selectedWorld);
+      c.handleSceneSwitch(scene, selectedWorld);
+    } else {
+      console.log("no world selected to play");
+    }
+  };
+
+  const deleteSelected = () => {
+    if (selectedWorld) {
+      worldContext.removeWorld(selectedWorld);
+    } else {
+      console.log("no world selected to delete");
+    }
+  };
+
+  const actions = {
+    PLAY: (scene) => playSelected(scene),
+    CREATE: (scene) => c.handleSceneSwitch(scene, selectedWorld),
+    EDIT: () => {
+      console.log("edit");
+    },
+    DELETE: deleteSelected,
+    RECREATE: () => {
+      console.log("recreate");
+    },
+    CANCEL: () => {
+      console.log("cancel");
+    },
+  };
+
+  const largeButtons = [
+    {
+      text: "Play Selected World",
+      scene: sceneList.PLAY,
+      action: actions.PLAY,
+    },
+    {
+      text: "Create New World",
+      scene: sceneList.CREATE,
+      action: actions.CREATE,
+    },
+  ];
+  const mediumButtons = [
+    { text: "Edit", scene: sceneList.NOT_IMPLEMENTED, action: actions.EDIT },
+    {
+      text: "Delete",
+      scene: sceneList.NOT_IMPLEMENTED,
+      action: actions.DELETE,
+    },
+    {
+      text: "Re-Create",
+      scene: sceneList.NOT_IMPLEMENTED,
+      action: actions.RECREATE,
+    },
+    { text: "Cancel", scene: sceneList.MAIN, action: actions.CANCEL },
+  ];
 
   return (
     <>
@@ -55,7 +100,14 @@ const Singleplayer = () => {
           <div
             style={selectedWorld === world ? { border: "2px solid black" } : {}}
             className="worldList-item"
-            onClick={() => setSelectedWorld(world)}
+            onClick={() => {
+              if (selectedWorld !== world) {
+                setSelectedWorld(world);
+              }
+            }}
+            onDoubleClick={() =>
+              playSelected(sceneList.PLAY)
+            }
             key={`${world.name}`}
           >
             <img src="" alt="" /> {/* IMAGE FOR THE WORLD */}
@@ -78,7 +130,7 @@ const Singleplayer = () => {
           {largeButtons.map((item) => (
             <LargeButton
               text={item.text}
-              onClick={() => c.handleSceneSwitch(item.scene, selectedWorld)}
+              onClick={() => item.action(item.scene)}
               key={item.text}
             />
           ))}
@@ -87,7 +139,7 @@ const Singleplayer = () => {
           {mediumButtons.map((item) => (
             <MediumButton
               text={item.text}
-              onClick={() => c.handleSceneSwitch(item.scene, selectedWorld)}
+              onClick={item.action}
               key={item.text}
             />
           ))}
