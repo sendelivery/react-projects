@@ -3,6 +3,7 @@ import { World } from "../classes/World";
 import { LargeButton, MediumButton } from "../components/Button";
 import { SceneContext } from "../contexts/SceneContext";
 import { WorldContext } from "../contexts/WorldListContext";
+import thumbnail from "../assets/gui/presets/isles.png";
 
 const Singleplayer = () => {
   const c = useContext(SceneContext);
@@ -48,9 +49,7 @@ const Singleplayer = () => {
     RECREATE: () => {
       console.log("recreate");
     },
-    CANCEL: () => {
-      console.log("cancel");
-    },
+    CANCEL: (scene) => c.handleSceneSwitch(scene),
   };
 
   const largeButtons = [
@@ -82,7 +81,7 @@ const Singleplayer = () => {
 
   return (
     <>
-      <div className="header">
+      <div className="header-container">
         <h1>Select World</h1>
         <div className="input-container">
           <SearchInput
@@ -98,19 +97,19 @@ const Singleplayer = () => {
       <div className="world-select">
         {worldContext.worldList.map((world) => (
           <div
-            style={selectedWorld === world ? { border: "2px solid black" } : {}}
+            style={selectedWorld === world ? { border: "4px solid grey" } : {}}
             className="worldList-item"
             onClick={() => {
               if (selectedWorld !== world) {
                 setSelectedWorld(world);
+              } else {
+                setSelectedWorld(null);
               }
             }}
-            onDoubleClick={() =>
-              playSelected(sceneList.PLAY)
-            }
+            onDoubleClick={() => playSelected(sceneList.PLAY)}
             key={`${world.name}`}
           >
-            <img src="" alt="" /> {/* IMAGE FOR THE WORLD */}
+            <img src={thumbnail} alt="world thumbnail" />
             <h3>{world.name}</h3>
             <p>
               {world.name} ({world.date})
@@ -125,7 +124,7 @@ const Singleplayer = () => {
         ))}
         <hr />
       </div>
-      <div className="footer">
+      <div className="footer-container">
         <div>
           {largeButtons.map((item) => (
             <LargeButton
@@ -139,7 +138,7 @@ const Singleplayer = () => {
           {mediumButtons.map((item) => (
             <MediumButton
               text={item.text}
-              onClick={item.action}
+              onClick={() => item.action(item.scene)}
               key={item.text}
             />
           ))}

@@ -1,9 +1,15 @@
 .App {
   text-align: center;
+  height: 100%;
+  position: relative;
 }
 
 .header-container {
-  width: 100%;
+  margin-bottom: 27px;
+}
+
+.header-container > h1 {
+  color: white;
 }
 
 .body-container {
@@ -11,23 +17,61 @@
 }
 
 .footer-container {
-  width: 100%;
+    position: absolute;
+    bottom: 0;
 }
 
 .input-container {
   margin: auto;
-  width: 50%;
-}
-
-.input-container > * {
-  float: left;
-  margin: 0;
+  width: 40%;
 }
 
 .input-container > input {
+  margin: 10px;
+  border: 4px solid lightgrey;
+  background-color: black;
+  color: grey;
+  font-size: xx-large;
   width: 100%;
+  height: 81px;
+}
+
+#world-search:focus {
+  outline: none;
+  border: 4px solid white;
+}
+
+.world-select {
+  margin: auto;
+}
+
+.worldList-item {
+  margin: auto;
+  width: 55%;
+  height: 135px;
+}
+
+.worldList-item > img {
+  float: left;
+  margin-left: 10%;
+  width: auto;
+  max-height: 90%;
+}
+
+.worldList-item > h3,
+p {
+  color: white;
 }
 
 .button-row {
   clear: both;
+}
+
+.button {
+  width: 200px;
+  height: 40px;
+  background: url("./assets/gui/gui.png") 0 -134px;
+  background-size: 200%;
+  font-family: inherit;
+  font-size: 1em;
 }

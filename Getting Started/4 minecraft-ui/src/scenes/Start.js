@@ -58,7 +58,7 @@ const SubButtons = ({ buttons }) => {
 
   return buttons.map((item) => (
     <SmallButton
-      onClick={() => c.setScene(item.scene)}
+      onClick={() => c.handleSceneSwitch(item.scene)}
       text={item.text}
       key={`${item.text}`}
     />
