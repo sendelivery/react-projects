@@ -2,6 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  @font-face {
+    font-family: "Minecraft-Regular";
+    src: url(./public/fonts/Minecraft-Regular.otf) format("opentype"); /* change to woff and woff2 at some point */
+  }
+}
+
+h2 {
+    font-family: "Minecraft-Regular", sans-serif;
+    font-size: 24pt;
+  }
+
+@layer utilities {
+  .header-height {
+    height: 17.778%;
+  }
+
+  .body-height {
+    height: 58.5%;
+  }
+
+  .worldlist-container {
+    @apply mx-auto;
+    width: 55.5%;
+  }
+
+  .world-item {
+    @apply mx-auto;
+  }
+
+  .footer-height {
+    height: 23.722%;
+  }
+
+  .world-select {
+    width: 42%;
+  }
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
