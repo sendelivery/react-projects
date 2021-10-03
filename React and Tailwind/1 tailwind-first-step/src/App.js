@@ -7,33 +7,33 @@ import WorldItem from "./components/worldItem";
 const initialWorldList = [
   {
     thumbnail: {
-      filename: "",
-      url: "",
+      filename: "eorzea thumbnail",
+      url: "/assets/isles.png",
     },
     name: "Eorzea",
-    lastPlayed: "(2/24/20 9:05PM)",
+    lastPlayed: "(2/24/20 21:05)",
     mode: 1,
     cheats: true,
     version: "1.14.4",
   },
   {
     thumbnail: {
-      filename: "",
-      url: "",
+      filename: "thanadiel thumbnail",
+      url: "/assets/isles.png",
     },
     name: "Thanadiel",
-    lastPlayed: "(3/14/20 11:32AM)",
+    lastPlayed: "(3/14/20 11:32)",
     mode: 0,
     cheats: false,
     version: "1.14.4",
   },
   {
     thumbnail: {
-      filename: "",
-      url: "",
+      filename: "senchu thumbnail",
+      url: "/assets/isles.png",
     },
     name: "Senchu",
-    lastPlayed: "(2/28/20 3:04AM)",
+    lastPlayed: "(2/28/20 3:04)",
     mode: 2,
     cheats: false,
     version: "1.14.4",
@@ -53,9 +53,8 @@ const App = () => {
 };
 
 const Body = ({ worldList }) => {
-  console.log(worldList);
   return (
-    <div className="body-height bg-gray-400">
+    <div className="body-height bg-gray-400 overflow-y-scroll">
       <div className="worldlist-container">
         {worldList.map((world) => (
           <WorldItem world={world} />

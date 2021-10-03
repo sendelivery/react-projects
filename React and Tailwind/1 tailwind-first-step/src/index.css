@@ -10,9 +10,33 @@
 }
 
 h2 {
-    font-family: "Minecraft-Regular", sans-serif;
-    font-size: 24pt;
+  font-family: "Minecraft-Regular", sans-serif;
+  font-size: 24pt;
+  color: white;
+}
+
+h3,
+p {
+  font-family: "Minecraft-Regular", sans-serif;
+  font-size: 24pt;
+}
+
+@media (max-width: 1024px) {
+    h3, p {
+      font-size: 20pt;
+    }
   }
+
+h3 {
+  color: white;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  line-height: 0.9;
+}
 
 @layer utilities {
   .header-height {
@@ -34,11 +58,18 @@ h2 {
 
   .worldlist-container {
     @apply mx-auto;
-    width: 55.5%;
+    @apply mt-3;
+    width: 842px;
+  }
+
+  @media (max-width: 1024px) {
+    .worldlist-container {
+      @apply w-10/12;
+    }
   }
 
   .world-item {
-    @apply mx-auto;
+    @apply mb-4;
   }
 
   .footer-height {
@@ -48,14 +79,14 @@ h2 {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
