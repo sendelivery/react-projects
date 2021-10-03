@@ -17,6 +17,15 @@ h2 {
 @layer utilities {
   .header-height {
     height: 17.778%;
+    max-height: 192px;
+  }
+
+  .world-select-text {
+    @apply mx-auto;
+    width: 42%;
+    margin-bottom: 4px;
+    @apply h-8;
+    @apply lg:h-16;
   }
 
   .body-height {
@@ -34,10 +43,6 @@ h2 {
 
   .footer-height {
     height: 23.722%;
-  }
-
-  .world-select {
-    width: 42%;
   }
 }
 
