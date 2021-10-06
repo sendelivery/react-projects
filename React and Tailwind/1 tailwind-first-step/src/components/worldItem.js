@@ -20,7 +20,8 @@ const WorldItem = ({ world }) => {
             <span style={{ color: "red" }}>{gamemode}</span>
           ) : (
             <span>{gamemode}</span>
-          )}{", "}
+          )}
+          {", "}
           Version: {world.version}
         </p>
       </div>

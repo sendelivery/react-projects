@@ -75,6 +75,32 @@ p {
   .footer-height {
     height: 23.722%;
   }
+
+  .large-button {
+    @apply m-4;
+    @apply bg-gray-900;
+    @apply text-white;
+    width: 462px;
+  }
+
+  @media (max-width: 1024px) {
+    .large-button {
+      @apply w-5/12;
+    }
+  }
+
+  .small-button {
+    @apply m-4;
+    @apply bg-gray-900;
+    @apply text-white;
+    width: 224px;
+  }
+
+  @media (max-width: 1024px) {
+    .small-button {
+      @apply w-2/12;
+    }
+  }
 }
 
 body {
