@@ -22,10 +22,11 @@ p {
 }
 
 @media (max-width: 1024px) {
-    h3, p {
-      font-size: 20pt;
-    }
+  h3,
+  p {
+    font-size: 20pt;
   }
+}
 
 h3 {
   color: white;
@@ -52,8 +53,14 @@ p {
     @apply lg:h-16;
   }
 
-  .body-height {
+  .body {
     height: 58.5%;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .body::-webkit-scrollbar {
+    display: none;
   }
 
   .worldlist-container {
@@ -75,6 +82,31 @@ p {
   .footer-height {
     height: 23.722%;
   }
+<<<<<<< Updated upstream
+=======
+
+  .button-container {
+    width: 980px;
+  }
+
+  @media (max-width: 1024px) {
+    .button-container {
+      @apply w-10/12;
+    }
+  }
+
+  .large-button {
+    @apply bg-gray-900;
+    @apply text-white;
+    /* width: 462px; */
+  }
+
+  .small-button {
+    @apply bg-gray-900;
+    @apply text-white;
+    /* width: 224px; */
+  }
+>>>>>>> Stashed changes
 }
 
 body {

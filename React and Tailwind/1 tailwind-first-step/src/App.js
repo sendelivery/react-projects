@@ -54,7 +54,7 @@ const App = () => {
 
 const Body = ({ worldList }) => {
   return (
-    <div className="body-height bg-gray-400 overflow-y-scroll">
+    <div className="body bg-gray-400 overflow-y-scroll">
       <div className="worldlist-container">
         {worldList.map((world) => (
           <WorldItem world={world} />
