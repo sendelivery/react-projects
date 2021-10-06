@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* major css performance issues, possibly because of my excessive use of @apply, look into it */
+/* FATAL ERROR: CALL_AND_RETRY_LAST Allocation failed - JavaScript heap out of memory ^^^^
+  npm ERR! Failed at the tailwind-first-step@0.1.0 start script.
+  npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+  npm ERR! A complete log of this run can be found in:
+  npm ERR!     C:\Users\sebcr\AppData\Roaming\npm-cache\_logs\2021-10-06T21_34_28_870Z-debug.log
+ */
 @layer base {
   @font-face {
     font-family: "Minecraft-Regular";
@@ -19,6 +27,7 @@ h3,
 p {
   font-family: "Minecraft-Regular", sans-serif;
   font-size: 24pt;
+  color: rgb(130, 128, 124);
 }
 
 @media (max-width: 1024px) {
@@ -40,7 +49,20 @@ p {
 }
 
 @layer utilities {
-  .header-height {
+
+  /* header dim repeat:round does not give the desired result, find a better way */
+  .medium-dim-bg {
+    background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.75) 0%,
+        rgba(0, 0, 0, 0.75) 100%
+      ),
+      100% url("./assets/dirt.png") round;
+    background-size: 112px;
+    image-rendering: pixelated;
+  }
+
+  .header {
     height: 17.778%;
     max-height: 192px;
   }
@@ -53,10 +75,18 @@ p {
     @apply lg:h-16;
   }
 
-  .body {
+  .worldlist-body {
     height: 58.5%;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0.85) 5%,
+        rgba(0, 0, 0, 0.85) 95%,
+        rgba(0, 0, 0, 1) 100%
+      ),
+      100% url("./assets/dirt.png") round;
+    background-size: 112px;
+    image-rendering: pixelated;
   }
 
   .body::-webkit-scrollbar {
@@ -79,11 +109,9 @@ p {
     @apply mb-4;
   }
 
-  .footer-height {
+  .footer {
     height: 23.722%;
   }
-<<<<<<< Updated upstream
-=======
 
   .button-container {
     width: 980px;
@@ -95,18 +123,26 @@ p {
     }
   }
 
-  .large-button {
-    @apply bg-gray-900;
+  .button {
+    height: 56px;
+    font-family: "Minecraft-Regular", sans-serif;
+    font-size: 24pt;
+    @apply bg-gray-500;
     @apply text-white;
+    outline: 4px solid black;
+  }
+
+  .button:hover {
+    outline: 4px solid white;
+  }
+
+  .large-button {
     /* width: 462px; */
   }
 
   .small-button {
-    @apply bg-gray-900;
-    @apply text-white;
     /* width: 224px; */
   }
->>>>>>> Stashed changes
 }
 
 body {

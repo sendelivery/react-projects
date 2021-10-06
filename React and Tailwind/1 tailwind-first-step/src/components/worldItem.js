@@ -4,7 +4,7 @@ const WorldItem = ({ world }) => {
   const gamemode = gamemodeText(world.mode);
 
   return (
-    <div className="world-item mx-auto bg-gray-500 space-x-2 sm:flex">
+    <div className="world-item mx-auto space-x-2 sm:flex">
       <img
         className="block flex-shrink-0 h-24 lg:h-28 mr-0"
         src={world.thumbnail.url}
@@ -17,7 +17,7 @@ const WorldItem = ({ world }) => {
         </p>
         <p>
           {world.mode === 2 ? (
-            <span style={{ color: "red" }}>{gamemode}</span>
+            <span style={{ color: "rgb(189, 17, 3)" }}>{gamemode}</span>
           ) : (
             <span>{gamemode}</span>
           )}{", "}
