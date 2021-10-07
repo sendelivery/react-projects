@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import "./index.css";
@@ -53,11 +53,20 @@ const App = () => {
 };
 
 const Body = ({ worldList }) => {
+  const [selectedWorld, setSelectedWorld] = useState();
+
   return (
     <div className="worldlist-body overflow-y-scroll">
       <div className="worldlist-container">
         {worldList.map((world) => (
-          <WorldItem world={world} />
+          <WorldItem
+            world={world}
+            onClick={e => {
+              // e.preventDefault();
+              setSelectedWorld(world);
+            }}
+            className={selectedWorld === world ? "selected" : null}
+          />
         ))}
       </div>
     </div>

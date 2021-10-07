@@ -1,10 +1,10 @@
 import React from "react";
 
-const WorldItem = ({ world }) => {
+const WorldItem = ({ world, onClick, className }) => {
   const gamemode = gamemodeText(world.mode);
 
   return (
-    <div className="world-item mx-auto space-x-2 sm:flex">
+    <div className={`world-item ${className} mx-auto space-x-2 sm:flex`} onClick={onClick}>
       <img
         className="block flex-shrink-0 h-24 lg:h-28 mr-0"
         src={world.thumbnail.url}

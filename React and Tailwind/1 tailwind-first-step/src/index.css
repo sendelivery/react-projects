@@ -21,6 +21,7 @@ h2 {
   font-family: "Minecraft-Regular", sans-serif;
   font-size: 24pt;
   color: white;
+  text-shadow: 3.4px 3.4px rgb(64, 65, 62);
 }
 
 h3,
@@ -48,8 +49,24 @@ p {
   line-height: 0.9;
 }
 
-@layer utilities {
+input[type="text"] {
+  background-color: black;
+  border: 4px solid rgb(160, 160, 160);
+  color: white;
+  font-family: "Minecraft-Regular", sans-serif;
+  font-size: 24pt;
+  text-shadow: 3.4px 3.4px rgb(64, 65, 62);
+  padding: 12px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 
+input[type="text"]:focus {
+  border: 4px solid white;
+}
+
+@layer utilities {
   /* header dim repeat:round does not give the desired result, find a better way */
   .medium-dim-bg {
     background: linear-gradient(
@@ -67,12 +84,13 @@ p {
     max-height: 192px;
   }
 
-  .world-select-text {
+  .world-select-input {
     @apply mx-auto;
     width: 42%;
     margin-bottom: 4px;
     @apply h-8;
     @apply lg:h-16;
+    @apply focus:outline-none;
   }
 
   .worldlist-body {
@@ -80,16 +98,18 @@ p {
     background: linear-gradient(
         0deg,
         rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 0.85) 5%,
-        rgba(0, 0, 0, 0.85) 95%,
+        rgba(0, 0, 0, 0.85) 2.5%,
+        rgba(0, 0, 0, 0.85) 97.5%,
         rgba(0, 0, 0, 1) 100%
       ),
       100% url("./assets/dirt.png") round;
     background-size: 112px;
     image-rendering: pixelated;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
-  .body::-webkit-scrollbar {
+  .worldlist-body::-webkit-scrollbar {
     display: none;
   }
 
@@ -107,6 +127,11 @@ p {
 
   .world-item {
     @apply mb-4;
+    @apply p-1;
+  }
+
+  .selected {
+    border: 4px solid white;
   }
 
   .footer {
@@ -126,6 +151,7 @@ p {
   .button {
     height: 56px;
     font-family: "Minecraft-Regular", sans-serif;
+    text-shadow: 3.4px 3.4px rgb(65, 64, 62);
     font-size: 24pt;
     @apply bg-gray-500;
     @apply text-white;
@@ -136,11 +162,23 @@ p {
     outline: 4px solid white;
   }
 
+  .button:focus {
+    outline: 4px solid white;
+  }
+
   .large-button {
+    background: url("./assets/button.png");
+    background-repeat: round;
+    background-size: 396px 54px;
+    image-rendering: pixelated;
     /* width: 462px; */
   }
 
   .small-button {
+    background: url("./assets/button.png");
+    background-repeat: round;
+    background-size: 184px 54px;
+    image-rendering: pixelated;
     /* width: 224px; */
   }
 }
