@@ -2,18 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* major css performance issues, possibly because of my excessive use of @apply, look into it */
-/* FATAL ERROR: CALL_AND_RETRY_LAST Allocation failed - JavaScript heap out of memory ^^^^
-  npm ERR! Failed at the tailwind-first-step@0.1.0 start script.
-  npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
-
-  npm ERR! A complete log of this run can be found in:
-  npm ERR!     C:\Users\sebcr\AppData\Roaming\npm-cache\_logs\2021-10-06T21_34_28_870Z-debug.log
- */
 @layer base {
   @font-face {
     font-family: "Minecraft-Regular";
-    src: url(./public/fonts/Minecraft-Regular.otf) format("opentype"); /* change to woff and woff2 at some point */
+    src: url(./public/fonts/Minecraft-Regular.otf) format("opentype"); /* TODO: change to woff and woff2 at some point */
   }
 }
 
@@ -31,7 +23,7 @@ p {
   color: rgb(130, 128, 124);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px) { /* use screen(lg) and put in utilities? */
   h3,
   p {
     font-size: 20pt;
@@ -148,7 +140,7 @@ input[type="text"]:focus {
     }
   }
 
-  .button {
+  .button-base {
     height: 56px;
     font-family: "Minecraft-Regular", sans-serif;
     text-shadow: 3.4px 3.4px rgb(65, 64, 62);
@@ -158,26 +150,30 @@ input[type="text"]:focus {
     outline: 4px solid black;
   }
 
-  .button:hover {
+  .button-base:hover {
     outline: 4px solid white;
   }
 
-  .button:focus {
+  .button-base:focus {
     outline: 4px solid white;
+  }
+
+  .button-disabled {
+    outline: 4px solid red;
   }
 
   .large-button {
     background: url("./assets/button.png");
-    background-repeat: round;
-    background-size: 396px 54px;
+    background-repeat: no-repeat;
+    background-size: cover;
     image-rendering: pixelated;
     /* width: 462px; */
   }
 
   .small-button {
-    background: url("./assets/button.png");
-    background-repeat: round;
-    background-size: 184px 54px;
+    background: url("./assets/button-sm.png");
+    background-repeat: no-repeat;
+    background-size: cover;
     image-rendering: pixelated;
     /* width: 224px; */
   }
@@ -190,6 +186,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  @apply select-none;
 }
 
 code {

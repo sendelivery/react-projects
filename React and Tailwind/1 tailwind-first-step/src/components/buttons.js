@@ -1,12 +1,27 @@
 import React from "react";
 
-const LargeButton = ({ className, text }) => {
-  return <button className={`${className} button large-button`}>{text}</button>;
+const LargeButton = ({ disabled = false, className, text }) => {
+  return (
+    <button
+      disabled={disabled}
+      // ternary to switch disabled / non-disabled styles
+      className={`disabled:button-disabled ${className} button-base large-button bg-opacity-0 bg-none `}
+    >
+      {text}
+    </button>
+  );
 };
 // 348 - 940 + 4px border = 592
 
-const SmallButton = ({ className, text }) => {
-  return <button className={`${className} button small-button`}>{text}</button>;
+const SmallButton = ({ disabled, className, text }) => {
+  return (
+    <button
+      disabled={disabled}
+      className={`disabled:button-disabled ${className} button-base small-button`}
+    >
+      {text}
+    </button>
+  );
 };
 //  628 - 348 = 280
 

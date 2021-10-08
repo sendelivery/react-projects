@@ -41,37 +41,40 @@ const initialWorldList = [
 ];
 
 const App = () => {
-  const [worldList, setWorldList] = React.useState(initialWorldList);
-  console.log("initial wl: ", worldList);
+  const [worldList] = useState(initialWorldList);
+  const [selectedWorld, setSelectedWorld] = useState(null); // invisible padding / border
+
   return (
     <div className="h-screen">
       <Header />
-      <Body worldList={worldList} />
-      <Footer />
+      <Body
+        worldList={worldList}
+        selectedWorld={selectedWorld}
+        setSelectedWorld={setSelectedWorld}
+      />
+      <Footer selectedWorld={selectedWorld} />
     </div>
   );
 };
 
-const Body = ({ worldList }) => {
-  const [selectedWorld, setSelectedWorld] = useState();
-
-  return (
-    <div className="worldlist-body overflow-y-scroll">
-      <div className="worldlist-container">
-        {worldList.map((world) => (
-          <WorldItem
-            world={world}
-            onClick={e => {
-              // e.preventDefault();
-              setSelectedWorld(world);
-            }}
-            className={selectedWorld === world ? "selected" : null}
-          />
-        ))}
-      </div>
+const Body = ({ worldList, selectedWorld, setSelectedWorld }) => (
+  <div className="worldlist-body overflow-y-scroll">
+    <div className="worldlist-container">
+      {worldList.map((world, index) => (
+        <WorldItem
+          key={`world_${index}`}
+          world={world}
+          onClick={() =>
+            world === selectedWorld
+              ? setSelectedWorld(null)
+              : setSelectedWorld(world)
+          }
+          className={selectedWorld === world && "selected"}
+        />
+      ))}
     </div>
-  );
-};
+  </div>
+);
 
 export default App;
 
