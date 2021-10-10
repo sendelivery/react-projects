@@ -23,7 +23,8 @@ p {
   color: rgb(130, 128, 124);
 }
 
-@media (max-width: 1024px) { /* use screen(lg) and put in utilities? */
+@media (max-width: 1024px) {
+  /* use screen(lg) and put in utilities? */
   h3,
   p {
     font-size: 20pt;
@@ -59,27 +60,23 @@ input[type="text"]:focus {
 }
 
 @layer utilities {
-  /* header dim repeat:round does not give the desired result, find a better way */
-  .medium-dim-bg {
+  .header {
+    height: 17.778%;
+    max-height: 192px;
     background: linear-gradient(
         0deg,
         rgba(0, 0, 0, 0.75) 0%,
         rgba(0, 0, 0, 0.75) 100%
       ),
-      100% url("./assets/dirt.png") round;
-    background-size: 112px;
+      100% url("./assets/dirt.png");
+    background-size: 113px;
     image-rendering: pixelated;
-  }
-
-  .header {
-    height: 17.778%;
-    max-height: 192px;
   }
 
   .world-select-input {
     @apply mx-auto;
     width: 42%;
-    margin-bottom: 4px;
+    @apply mb-1;
     @apply h-8;
     @apply lg:h-16;
     @apply focus:outline-none;
@@ -94,8 +91,8 @@ input[type="text"]:focus {
         rgba(0, 0, 0, 0.85) 97.5%,
         rgba(0, 0, 0, 1) 100%
       ),
-      100% url("./assets/dirt.png") round;
-    background-size: 112px;
+      100% url("./assets/dirt.png");
+    background-size: 114px;
     image-rendering: pixelated;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -117,17 +114,37 @@ input[type="text"]:focus {
     }
   }
 
+  .world-item-container {
+    height: 128px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-content: flex-start;
+    flex-wrap: wrap;
+  }
+
   .world-item {
-    @apply mb-4;
+    @apply box-border;
+    @apply ml-1;
     @apply p-1;
+    @apply w-full;
   }
 
   .selected {
     border: 4px solid white;
+    @apply ml-0;
   }
 
   .footer {
     height: 23.722%;
+    background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.75) 0%,
+        rgba(0, 0, 0, 0.75) 100%
+      ),
+      100% url("./assets/dirt.png");
+    background-size: 117px;
+    image-rendering: pixelated;
   }
 
   .button-container {
@@ -158,8 +175,19 @@ input[type="text"]:focus {
     outline: 4px solid white;
   }
 
-  .button-disabled {
-    outline: 4px solid red;
+  .button-base:disabled {
+    text-shadow: none;
+    color: rgb(159, 159, 159);
+    outline: 4px solid black;
+    background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.7) 100%
+      ),
+      100% url("./assets/stone.png") round;
+    background-repeat: round;
+    background-size: 64px 64px;
+    image-rendering: pixelated;
   }
 
   .large-button {
