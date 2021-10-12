@@ -1,4 +1,6 @@
 import React from "react";
+import world_selection from "../assets/world_selection.png";
+import world_selection_hover from "../assets/world_selection_hover.png";
 
 const WorldItem = ({ world, onClick, className }) => {
   const gamemode = gamemodeText(world.mode);
@@ -9,11 +11,29 @@ const WorldItem = ({ world, onClick, className }) => {
         className={`world-item ${className} mx-auto space-x-2 sm:flex`}
         onClick={onClick}
       >
-        <img
-          className="block flex-shrink-0 h-24 lg:h-28 mr-0"
-          src={world.thumbnail.url}
-          alt={world.thumbnail.filename}
-        />
+        <div style={{ position: "relative" }}>
+          {/* For some reason tailwind's relative utility doesn't have the desired effect but this does... */}
+          <img
+            className="block flex-shrink-0 h-24 lg:h-26 mr-0"
+            src={world.thumbnail.url}
+            alt={world.thumbnail.filename}
+          />
+          <div className="absolute img-transition">
+            <div className="fog">
+              <img
+                src={world_selection}
+                className="w-full"
+                onMouseOver={(e) =>
+                  (e.currentTarget.src = world_selection_hover)
+                }
+                onMouseOut={(e) => 
+                  (e.currentTarget.src = world_selection)
+                }
+              />
+            </div>
+          </div>
+        </div>
+
         <div>
           <h3>{world.name}</h3>
           <p>

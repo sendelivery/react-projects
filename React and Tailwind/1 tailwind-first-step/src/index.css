@@ -24,10 +24,10 @@ p {
 }
 
 @media (max-width: 1024px) {
-  /* use screen(lg) and put in utilities? */
+  /* TODO: use screen(lg) and put in utilities? */
   h3,
   p {
-    font-size: 20pt;
+    font-size: 24pt;
   }
 }
 
@@ -60,151 +60,194 @@ input[type="text"]:focus {
 }
 
 @layer utilities {
-  .header {
-    height: 17.778%;
-    max-height: 192px;
-    background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.75) 0%,
-        rgba(0, 0, 0, 0.75) 100%
-      ),
-      100% url("./assets/dirt.png");
-    background-size: 113px;
-    image-rendering: pixelated;
+  .h-17 {
+    height: 4.5rem;
   }
-
-  .world-select-input {
-    @apply mx-auto;
-    width: 42%;
-    @apply mb-1;
-    @apply h-8;
-    @apply lg:h-16;
-    @apply focus:outline-none;
+  .h-26 {
+    height: 6.5rem;
   }
-
-  .worldlist-body {
-    height: 58.5%;
-    background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 0.85) 2.5%,
-        rgba(0, 0, 0, 0.85) 97.5%,
-        rgba(0, 0, 0, 1) 100%
-      ),
-      100% url("./assets/dirt.png");
-    background-size: 114px;
-    image-rendering: pixelated;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .worldlist-body::-webkit-scrollbar {
-    display: none;
-  }
-
-  .worldlist-container {
-    @apply mx-auto;
-    @apply mt-3;
-    width: 842px;
-  }
-
-  @media (max-width: 1024px) {
-    .worldlist-container {
-      @apply w-10/12;
-    }
-  }
-
-  .world-item-container {
+  .item-container-height {
     height: 128px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-content: flex-start;
-    flex-wrap: wrap;
   }
-
-  .world-item {
-    @apply box-border;
-    @apply ml-1;
-    @apply p-1;
-    @apply w-full;
-  }
-
-  .selected {
-    border: 4px solid white;
-    @apply ml-0;
-  }
-
-  .footer {
-    height: 23.722%;
-    background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.75) 0%,
-        rgba(0, 0, 0, 0.75) 100%
-      ),
-      100% url("./assets/dirt.png");
-    background-size: 117px;
-    image-rendering: pixelated;
-  }
-
-  .button-container {
-    width: 980px;
-  }
-
-  @media (max-width: 1024px) {
-    .button-container {
-      @apply w-10/12;
-    }
-  }
-
-  .button-base {
-    height: 56px;
-    font-family: "Minecraft-Regular", sans-serif;
-    text-shadow: 3.4px 3.4px rgb(65, 64, 62);
+  .lg-button-text {
     font-size: 24pt;
-    @apply bg-gray-500;
-    @apply text-white;
-    outline: 4px solid black;
   }
+  .md-input-size {
+    width: 42%;
+  }
+}
 
-  .button-base:hover {
-    outline: 4px solid white;
-  }
+.header {
+  height: 17.778%;
+  max-height: 192px;
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.75) 0%,
+      rgba(0, 0, 0, 0.75) 100%
+    ),
+    100% url("./assets/dirt.png");
+  background-size: 113px;
+  image-rendering: pixelated;
+}
 
-  .button-base:focus {
-    outline: 4px solid white;
-  }
+.world-select-input {
+  @apply mx-auto;
+  width: 400px;
+  @apply md:md-input-size;
+  @apply mb-1;
+  @apply h-14;
+  @apply lg:h-17;
+  @apply focus:outline-none;
+}
 
-  .button-base:disabled {
-    text-shadow: none;
-    color: rgb(159, 159, 159);
-    outline: 4px solid black;
-    background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.7) 0%,
-        rgba(0, 0, 0, 0.7) 100%
-      ),
-      100% url("./assets/stone.png") round;
-    background-repeat: round;
-    background-size: 64px 64px;
-    image-rendering: pixelated;
-  }
+.worldlist-body {
+  height: 58.5%;
+  min-width: 768px;
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0.85) 2.5%,
+      rgba(0, 0, 0, 0.85) 97.5%,
+      rgba(0, 0, 0, 1) 100%
+    ),
+    100% url("./assets/dirt.png");
+  background-size: 114px;
+  image-rendering: pixelated;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
-  .large-button {
-    background: url("./assets/button.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    image-rendering: pixelated;
-    /* width: 462px; */
-  }
+.worldlist-body::-webkit-scrollbar {
+  display: none;
+}
 
-  .small-button {
-    background: url("./assets/button-sm.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    image-rendering: pixelated;
-    /* width: 224px; */
+.worldlist-container {
+  @apply mx-auto;
+  width: 842px;
+}
+
+@media (max-width: 1024px) {
+  .worldlist-container {
+    @apply w-10/12;
   }
+}
+
+.world-item-container {
+  height: 120px;
+  @apply lg:item-container-height;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.world-item-container:hover .img-transition {
+  opacity: 1;
+}
+
+.world-item {
+  @apply box-border;
+  @apply ml-1;
+  @apply p-1;
+  @apply w-full;
+}
+
+.img-transition {
+  transition: 0.1 ease;
+  opacity: 0;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.fog {
+  background: linear-gradient(
+    0deg,
+    rgba(148, 148, 148, 0.5) 0%,
+    rgba(148, 148, 148, 0.5) 100%
+  );
+  width: 100%;
+  height: 100%;
+}
+
+.selected {
+  border: 4px solid rgb(127, 127, 127);
+  @apply ml-0;
+}
+
+.footer {
+  height: 23.722%;
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.75) 0%,
+      rgba(0, 0, 0, 0.75) 100%
+    ),
+    100% url("./assets/dirt.png");
+  background-size: 117px;
+  image-rendering: pixelated;
+}
+
+.button-container {
+  width: 980px;
+  min-width: 680px;
+}
+
+@media (max-width: 1024px) {
+  .button-container {
+    @apply w-10/12;
+  }
+}
+
+.button-base {
+  height: 56px;
+  font-family: "Minecraft-Regular", sans-serif;
+  text-shadow: 3.4px 3.4px rgb(65, 64, 62);
+  font-size: 18pt;
+  @apply lg:lg-button-text;
+  @apply bg-gray-500;
+  @apply text-white;
+  outline: 4px solid black;
+}
+
+.button-base:hover {
+  outline: 4px solid white;
+}
+
+.button-base:focus {
+  outline: 4px solid white;
+}
+
+.button-base:disabled {
+  text-shadow: none;
+  color: rgb(159, 159, 159);
+  outline: 4px solid black;
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.7) 100%
+    ),
+    100% url("./assets/stone.png") round;
+  background-repeat: round;
+  background-size: 64px 64px;
+  image-rendering: pixelated;
+}
+
+.large-button {
+  background: url("./assets/button.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  image-rendering: pixelated;
+}
+
+.small-button {
+  background: url("./assets/button-sm.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  image-rendering: pixelated;
 }
 
 body {
