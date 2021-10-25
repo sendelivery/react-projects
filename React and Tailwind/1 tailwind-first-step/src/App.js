@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import Header from "./components/header";
 import Footer from "./components/footer";
-import "./index.css";
 import WorldItem from "./components/worldItem";
+import thumbnail from "./assets/images/isles.png";
+import "./index.css";
 
 const initialWorldList = [
   {
     thumbnail: {
       filename: "eorzea thumbnail",
-      url: "/assets/isles.png",
+      url: thumbnail,
     },
     name: "Eorzea",
     lastPlayed: "(2/24/20 21:05)",
@@ -19,7 +20,7 @@ const initialWorldList = [
   {
     thumbnail: {
       filename: "thanadiel thumbnail",
-      url: "/assets/isles.png",
+      url: thumbnail,
     },
     name: "Thanadiel",
     lastPlayed: "(3/14/20 11:32)",
@@ -30,7 +31,7 @@ const initialWorldList = [
   {
     thumbnail: {
       filename: "senchu thumbnail",
-      url: "/assets/isles.png",
+      url: thumbnail,
     },
     name: "Senchu",
     lastPlayed: "(2/28/20 3:04)",
@@ -42,7 +43,7 @@ const initialWorldList = [
 
 const App = () => {
   const [worldList] = useState(initialWorldList);
-  const [selectedWorld, setSelectedWorld] = useState(null); // invisible padding / border
+  const [selectedWorld, setSelectedWorld] = useState(null);
 
   return (
     <div className="h-screen">

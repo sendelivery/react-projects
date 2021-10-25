@@ -5,7 +5,7 @@
 @layer base {
   @font-face {
     font-family: "Minecraft-Regular";
-    src: url(./public/fonts/Minecraft-Regular.otf) format("opentype"); /* TODO: change to woff and woff2 at some point */
+    src: url(./assets/fonts/Minecraft-Regular.otf) format("opentype");
   }
 }
 
@@ -85,7 +85,7 @@ input[type="text"]:focus {
       rgba(0, 0, 0, 0.75) 0%,
       rgba(0, 0, 0, 0.75) 100%
     ),
-    100% url("./assets/dirt.png");
+    100% url("./assets/images/dirt.png");
   background-size: 113px;
   image-rendering: pixelated;
 }
@@ -110,7 +110,7 @@ input[type="text"]:focus {
       rgba(0, 0, 0, 0.85) 97.5%,
       rgba(0, 0, 0, 1) 100%
     ),
-    100% url("./assets/dirt.png");
+    100% url("./assets/images/dirt.png");
   background-size: 114px;
   image-rendering: pixelated;
   -ms-overflow-style: none;
@@ -186,7 +186,7 @@ input[type="text"]:focus {
       rgba(0, 0, 0, 0.75) 0%,
       rgba(0, 0, 0, 0.75) 100%
     ),
-    100% url("./assets/dirt.png");
+    100% url("./assets/images/dirt.png");
   background-size: 117px;
   image-rendering: pixelated;
 }
@@ -230,21 +230,21 @@ input[type="text"]:focus {
       rgba(0, 0, 0, 0.7) 0%,
       rgba(0, 0, 0, 0.7) 100%
     ),
-    100% url("./assets/stone.png") round;
+    100% url("./assets/images/stone.png") round;
   background-repeat: round;
   background-size: 64px 64px;
   image-rendering: pixelated;
 }
 
 .large-button {
-  background: url("./assets/button.png");
+  background: url("./assets/images/button.png");
   background-repeat: no-repeat;
   background-size: cover;
   image-rendering: pixelated;
 }
 
 .small-button {
-  background: url("./assets/button-sm.png");
+  background: url("./assets/images/button-sm.png");
   background-repeat: no-repeat;
   background-size: cover;
   image-rendering: pixelated;

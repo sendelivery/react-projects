@@ -1,6 +1,7 @@
 import React from "react";
-import world_selection from "../assets/world_selection.png";
-import world_selection_hover from "../assets/world_selection_hover.png";
+import world_selection from "../assets/images/world_selection.png";
+import world_selection_hover from "../assets/images/world_selection_hover.png";
+import { buttonAudio } from "./buttons";
 
 const WorldItem = ({ world, onClick, className }) => {
   const gamemode = gamemodeText(world.mode);
@@ -12,7 +13,7 @@ const WorldItem = ({ world, onClick, className }) => {
         onClick={onClick}
       >
         <div style={{ position: "relative" }}>
-          {/* For some reason tailwind's relative utility doesn't have the desired effect but this does... */}
+          {/* For some reason tailwind's relative utility wasn't giving the desired effect but this does... */}
           <img
             className="block flex-shrink-0 h-24 lg:h-26 mr-0"
             src={world.thumbnail.url}
@@ -29,6 +30,7 @@ const WorldItem = ({ world, onClick, className }) => {
                 onMouseOut={(e) => 
                   (e.currentTarget.src = world_selection)
                 }
+                onClick={() => buttonAudio.play()}
               />
             </div>
           </div>

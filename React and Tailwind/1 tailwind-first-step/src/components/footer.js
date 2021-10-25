@@ -10,14 +10,10 @@ const Footer = ({ selectedWorld }) => {
           className="col-span-2"
           text="Play Selected World"
         />
-        {/* above is gray unless selected, useRef? */}
         <LargeButton className="col-span-2" text="Create New World" />
         <SmallButton disabled={!selectedWorld} className="" text="Edit" />
-        {/* above is gray unless selected */}
         <SmallButton disabled={!selectedWorld} className="" text="Delete" />
-        {/* above is gray unless selected */}
         <SmallButton disabled={!selectedWorld} className="" text="Re-Create" />
-        {/* above is gray unless selected */}
         <SmallButton className="" text="Cancel" />
       </div>
     </div>
